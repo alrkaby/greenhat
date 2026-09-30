@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مسابقة مركز القبعة الخضراء | جعفر الصادق</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background glowing elements -->
+    <div class="bg-glow glow-1"></div>
+    <div class="bg-glow glow-2"></div>
+
+    <div id="app-container">
+        <!-- 1. Welcome Screen -->
+        <section id="screen-welcome" class="screen active">
+            <div class="glass-panel text-center welcome-box scale-in">
+                <div class="logo-wrapper">
+                    <img src="logo.png" alt="Green Hat Center" onerror="this.src='https://via.placeholder.com/150/10b981/fff?text=GH'">
+                </div>
+                <h1 class="main-title">مرحباً بك في مسابقة<br><span class="highlight">مركز القبعة الخضراء</span></h1>
+                <p class="subtitle">استعد للتحدي والإثارة! اختبر معلوماتك في مختلف المواد التعليمية.</p>
+                <div class="action-buttons justify-center mt-30">
+                    <button id="btn-start" class="btn-primary btn-xl pulse-anim"><i class="fa-solid fa-rocket"></i> ابدأ المتعة الآن</button>
+                    <button id="btn-settings" class="btn-secondary btn-xl"><i class="fa-solid fa-gear"></i> الإعدادات</button>
+                </div>
+                <div class="developer-credit-small mt-30">
+                    تطوير وبرمجة: <strong>جعفر الصادق</strong>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Settings Screen -->
+        <section id="screen-settings" class="screen">
+            <div class="glass-panel settings-box fade-in">
+                <h2 class="section-title text-center mb-30"><i class="fa-solid fa-sliders"></i> إعدادات المسابقة</h2>
+                
+                <div class="settings-grid">
+                    <div class="setting-item">
+                        <label>وقت الاستعداد (ثواني)</label>
+                        <input type="number" id="set-prep-time" value="5" min="1" max="10">
+                    </div>
+                    <div class="setting-item">
+                        <label>وقت الإجابة (ثواني) - (0 مفتوح)</label>
+                        <input type="number" id="set-ans-time" value="30" min="0">
+                    </div>
+                    <div class="setting-item full-width">
+                        <label>عدد الفرق (الحد الأقصى 4)</label>
+                        <div class="team-count-selector">
+                            <button class="team-count-btn active" data-count="2">فريقين</button>
+                            <button class="team-count-btn" data-count="3">3 فرق</button>
+                            <button class="team-count-btn" data-count="4">4 فرق</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="teams-config" class="teams-config-grid mt-20">
+                    <!-- Rendered via JS -->
+                </div>
+
+                <div class="action-buttons justify-between mt-30 border-top pt-20">
+                    <button id="btn-cancel-settings" class="btn-secondary"><i class="fa-solid fa-arrow-right"></i> رجوع</button>
+                    <button id="btn-save-settings" class="btn-primary"><i class="fa-solid fa-check-double"></i> حفظ وبدء المسابقة</button>
+                </div>
+                
+                <div class="mt-20 border-top pt-20">
+                    <button id="btn-hard-reset" class="btn-danger" style="width: 100%;"><i class="fa-solid fa-trash-can"></i> تصفير المسابقة بالكامل (حذف النقاط والأسئلة المحروقة)</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Countdown Screen -->
+        <section id="screen-countdown" class="screen">
+            <div class="countdown-box text-center">
+                <div class="subject-badge pulse-anim" id="prep-subject">مادة الرياضيات</div>
+                <h2 class="ready-text mt-20">استعد للسؤال...</h2>
+                <div class="timer-circle mt-30">
+                    <span id="prep-timer-val">5</span>
+                </div>
+                <div class="developer-credit-small mt-30" style="opacity: 0.8; margin-top: 40px;">
+                    تطوير وبرمجة: <strong>جعفر الصادق</strong>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Question Screen -->
+        <section id="screen-question" class="screen">
+            <div class="glass-panel question-panel fade-in">
+                <div class="q-header">
+                    <div class="q-subject" id="q-subject-display"><i class="fa-solid fa-book"></i> العلوم</div>
+                    <div class="q-timer" id="q-timer-display"><i class="fa-regular fa-clock"></i> <span id="q-time-val">30</span></div>
+                </div>
+                
+                <div class="q-body mt-30">
+                    <h2 id="q-text" class="question-text">جاري تحميل السؤال...</h2>
+                </div>
+
+                <div class="q-answer-box mt-30 text-center">
+                    <button id="btn-show-answer" class="btn-secondary pulse-anim"><i class="fa-solid fa-eye"></i> إظهار الإجابة</button>
+                    <div id="q-answer-text" class="answer-text blurred">الإجابة مخفية</div>
+                </div>
+                <div class="developer-credit-small mt-30 mb-20 text-center" style="opacity: 0.6;">
+                    تطوير وبرمجة: <strong>جعفر الصادق</strong>
+                </div>
+
+                <div class="action-buttons justify-center mt-20 border-top pt-20">
+                    <button id="btn-end-question" class="btn-danger btn-xl"><i class="fa-solid fa-flag-checkered"></i> إنهاء السؤال</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Award Points Screen -->
+        <section id="screen-award" class="screen">
+            <div class="glass-panel award-panel text-center fade-in">
+                <h2>من الذي أجاب إجابة صحيحة؟ 🎉</h2>
+                <p class="subtitle mt-10">اختر الفريق الفائز بنقاط هذا السؤال</p>
+                
+                <div id="award-teams-list" class="award-teams-grid mt-30">
+                    <!-- Rendered via JS -->
+                </div>
+
+                <div class="mt-30 pt-20 border-top">
+                    <button id="btn-nobody" class="btn-secondary"><i class="fa-solid fa-forward-step"></i> لم يجب أحد (تخطي)</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Scoreboard Screen -->
+        <section id="screen-scoreboard" class="screen">
+            <div class="glass-panel scoreboard-panel fade-in">
+                <h2 class="text-center mb-30" style="font-size: 2rem;"><i class="fa-solid fa-trophy text-gold"></i> لوحة الصدارة</h2>
+                
+                <div id="scoreboard-list" class="scoreboard-list">
+                    <!-- Rendered via JS -->
+                </div>
+
+                <div class="action-buttons justify-center mt-40">
+                    <button id="btn-next-q" class="btn-primary btn-xl"><i class="fa-solid fa-play"></i> السؤال التالي</button>
+                    <button id="btn-reset-game" class="btn-danger"><i class="fa-solid fa-rotate-right"></i> تصفير وإعادة</button>
+                </div>
+                <div class="developer-credit-small mt-30 text-center">
+                    بواسطة المبرمج: <strong>جعفر الصادق</strong>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Audio Elements -->
+    <audio id="sfx-tick" src="https://assets.mixkit.co/active_storage/sfx/1045/1045-preview.mp3" preload="auto"></audio>
+
+    <script src="app.js"></script>
+</body>
+</html>
